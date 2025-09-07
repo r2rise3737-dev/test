@@ -1,15 +1,15 @@
-﻿export const runtime = 'edge';
+export const runtime = 'edge';
 // src/app/api/ask/route.ts
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic"; // С‡С‚РѕР±С‹ РЅРµ РєСЌС€РёСЂРѕРІР°Р»РѕСЃСЊ
+export const dynamic = "force-dynamic"; // чтобы не кэшировалось
 
 type AskPayload = {
   name: string;
   email: string;
   phone: string;
   question: string;
-  // РѕРїС†РёРѕРЅР°Р»СЊРЅРѕ РґРѕРї. РєРѕРЅС‚РµРєСЃС‚
+  // опционально доп. контекст
   courseTitle?: string;
   amount?: string | number;
   currency?: string;
@@ -22,22 +22,22 @@ function sanitize(s: unknown, max = 500) {
 
 function buildMessage(p: AskPayload) {
   const lines = [
-    "<b>РќРѕРІР°СЏ Р·Р°СЏРІРєР°: В«Р—Р°РґР°С‚СЊ РІРѕРїСЂРѕСЃВ»</b>",
+    "<b>Новая заявка: «Задать вопрос»</b>",
     "",
-    `<b>РРјСЏ:</b> ${sanitize(p.name) || "-"}`,
+    `<b>Имя:</b> ${sanitize(p.name) || "-"}`,
     `<b>Email:</b> ${sanitize(p.email) || "-"}`,
-    `<b>РўРµР»РµС„РѕРЅ:</b> ${sanitize(p.phone) || "-"}`,
+    `<b>Телефон:</b> ${sanitize(p.phone) || "-"}`,
     "",
-    `<b>Р’РѕРїСЂРѕСЃ:</b> ${sanitize(p.question, 2000) || "-"}`,
+    `<b>Вопрос:</b> ${sanitize(p.question, 2000) || "-"}`,
   ];
 
   if (p.courseTitle || p.amount || p.currency) {
     lines.push(
       "",
-      "<b>РљРѕРЅС‚РµРєСЃС‚ Р·Р°РєР°Р·Р°:</b>",
-      p.courseTitle ? `вЂў РљСѓСЂСЃ: ${sanitize(p.courseTitle)}` : "",
-      p.amount ? `вЂў РЎСѓРјРјР°: ${sanitize(p.amount)}` : "",
-      p.currency ? `вЂў Р’Р°Р»СЋС‚Р°: ${sanitize(p.currency)}` : ""
+      "<b>Контекст заказа:</b>",
+      p.courseTitle ? `• Курс: ${sanitize(p.courseTitle)}` : "",
+      p.amount ? `• Сумма: ${sanitize(p.amount)}` : "",
+      p.currency ? `• Валюта: ${sanitize(p.currency)}` : ""
     );
   }
 
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     const { name, email, phone, question, courseTitle, amount, currency } =
       (await req.json()) as AskPayload;
 
-    // Р‘Р°Р·РѕРІР°СЏ РІР°Р»РёРґР°С†РёСЏ
+    // Базовая валидация
     if (!name || !email || !phone || !question) {
       return NextResponse.json(
         { ok: false, error: "VALIDATION_ERROR" },
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     }
 
     const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-    const CHAT_ID = process.env.TELEGRAM_CHAT_ID; // РјРѕР¶РµС‚ Р±С‹С‚СЊ id РёР»Рё @username
+    const CHAT_ID = process.env.TELEGRAM_CHAT_ID; // может быть id или @username
 
     if (!BOT_TOKEN || !CHAT_ID) {
       return NextResponse.json(
@@ -77,9 +77,9 @@ export async function POST(req: Request) {
       currency,
     });
 
-    // РћС‚РїСЂР°РІРєР° РІ Telegram
+    // Отправка в Telegram
     const controller = new AbortController();
-    const t = setTimeout(() => controller.abort(), 8000); // 8s С‚Р°Р№РјР°СѓС‚
+    const t = setTimeout(() => controller.abort(), 8000); // 8s таймаут
 
     const tgResp = await fetch(
       `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
