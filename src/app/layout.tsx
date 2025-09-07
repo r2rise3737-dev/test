@@ -38,7 +38,6 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "Angela Pearl — Академия",
     images: [
-      // (необязательно) положи public/og-image.jpg — тогда картинка будет в предпросмотрах ссылок
       { url: "/og-image.jpg", width: 1200, height: 630, alt: "Angela Pearl — Академия" },
     ],
     type: "website",
@@ -49,7 +48,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru">`n  <head>`n    <meta charSet="utf-8" />`n  </head>
+    <html lang="ru">
+      <head>
+        <meta charSet="utf-8" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
