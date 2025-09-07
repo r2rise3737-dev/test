@@ -1,0 +1,95 @@
+﻿.env.local
+.eslintignore
+bot/
+  .env
+  channel-posts.json
+  data/
+    courses.json
+    orders.jsonl
+  functions/
+    api/
+      invoice.ts
+  index.ts
+  invoice-links.json
+  lib/
+    vercel.mjs
+  menu-post.json
+  package.json
+  package-lock.json
+  scripts/
+    generateInvoiceLinks.mjs
+    getChannelInfo.mjs
+    publishMenuPost.mjs
+    resetWebhook.mjs
+    whoami.mjs
+  tsconfig.json
+  webapp/
+    index.html
+components.json
+eslint.config.mjs
+next.config.ts
+next-env.d.ts
+package.json
+package-lock.json
+postcss.config.mjs
+project_dirs.txt
+project_tree.txt
+public/
+  1land.PNG
+  2land.png
+  apple-touch-icon.png
+  favicon.ico
+  file.svg
+  fonland.png
+  fonland_1920x1080.png
+  globe.svg
+  land12.jpg
+  next.svg
+  photo_2025-08-16_21-20-50.jpg
+  tech-format.jpg
+  vercel.svg
+  window.svg
+README.md
+site-structure.txt
+src/
+  app/
+    api/
+      ask/
+        route.ts
+      lead/
+        route.ts
+      order/
+        route.ts
+      payments/
+        create-intent/
+          route.ts
+    checkout/
+      Client.tsx
+      page.tsx
+    favicon.ico
+    globals.css
+    HomeClient.tsx
+    icon.png
+    layout.tsx
+    page.tsx
+    success/
+      Client.tsx
+      page.tsx
+  components/
+    Hero.tsx
+    LeadForm.tsx
+    PaymentDialog.tsx
+    StarSky.tsx
+    StarSkyLight.tsx
+    ui/
+      button.tsx
+      card.tsx
+      input.tsx
+      textarea.tsx
+  lib/
+    courses.ts
+    sign.ts
+    utils.ts
+structure.txt
+tsconfig.json
+wrangler.toml

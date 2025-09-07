@@ -1,0 +1,86 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Angela Pearl · Курсы</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root{
+      --bg-url: url('/webapp/bg-app.png');
+      --overlay: rgba(0,0,0,.40);
+      --gold-1: #f4e3a2;  /* светлое золото (блик) */
+      --gold-2: #d4af37;  /* классическое золото */
+      --gold-3: #a18117;  /* тень */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:#fff; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        linear-gradient(var(--overlay),var(--overlay)),
+        var(--bg-url) center/cover no-repeat fixed;
+      display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .panel{
+      width:min(560px,100%);
+      background:rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(8px);
+      border-radius:20px;
+      padding:24px;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    .stack{display:flex; flex-direction:column; gap:14px; align-items:stretch}
+    .btn{
+      display:block; text-align:center; text-decoration:none; cursor:pointer;
+      font-weight:800; letter-spacing:.2px; padding:14px 18px; border-radius:14px; border:0;
+      transition:transform .08s ease, box-shadow .15s ease, filter .15s ease;
+      user-select:none;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn-gold{
+      color:#1b1b1b;
+      background:
+        linear-gradient(180deg,var(--gold-1),var(--gold-2));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.35),
+        0 10px 24px rgba(212,175,55,.35),
+        0 1px 0 rgba(255,255,255,.25);
+      border:1px solid rgba(164,129,23,.65);
+      text-shadow: 0 1px 0 rgba(255,255,255,.25);
+    }
+    .btn-gold:hover{ filter:saturate(1.06) brightness(1.02); }
+    .btn-gold-outline{
+      color:#f5e9be; background:transparent;
+      border:1.5px solid rgba(244,227,162,.85);
+      box-shadow: 0 6px 18px rgba(212,175,55,.22), inset 0 0 0 1px rgba(0,0,0,.05);
+    }
+    .btn-gold-outline:hover{ background:rgba(244,227,162,.08); }
+    .note{margin:8px 2px 0; font-size:12px; opacity:.85; text-align:center}
+    @media (min-width:520px){ .stack{ gap:16px } .btn{ padding:16px 20px } }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div class="stack">
+      <a class="btn btn-gold" href="https://angelapearl-academy.pages.dev/" target="_blank" rel="noopener">Подробнее о курсах</a>
+      <a class="btn btn-gold-outline" href="buy.html">Купить сейчас</a>
+      <div class="note">Оплата — внутри Telegram, через Stars</div>
+    </div>
+  </div>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg){ tg.expand(); tg.MainButton.hide(); }
+    // Поддержка прямого входа на оплату: ...startapp=section=buy
+    const sp = tg?.initDataUnsafe?.start_param
+            || new URLSearchParams(location.search).get('tgWebAppStartParam')
+            || new URLSearchParams(location.search).get('startapp') || '';
+    const sec = new URLSearchParams(sp).get('section');
+    if (sec === 'buy') location.href = 'buy.html';
+  </script>
+</body>
+</html>
+
+

@@ -1,0 +1,234 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Angela Pearl · Покупка</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root{
+      --bg-url: url('/webapp/bg-app.png');
+      --overlay: rgba(0,0,0,.40);
+      --gold-1:#f4e3a2; --gold-2:#d4af37;
+      --glass: rgba(0,0,0,.22); --glass-b: rgba(255,255,255,.18);
+      --safe-top: env(safe-area-inset-top, 0px);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:#fff; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(var(--overlay),var(--overlay)),var(--bg-url) center/cover no-repeat fixed;
+      height:100dvh;
+    }
+    .shell{height:100%; display:flex; align-items:center; justify-content:center; padding:12px;}
+    .panel{
+      width:min(860px,100%); height:min(100%, 100dvh - 24px);
+      display:flex; flex-direction:column; overflow:hidden;
+      background:var(--glass); border:1px solid var(--glass-b);
+      backdrop-filter: blur(8px); border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    /* Шапка */
+    .topbar{
+      position:sticky; top:0; z-index:5;
+      display:flex; align-items:center; gap:10px;
+      padding:calc(8px + var(--safe-top)) 12px 8px;
+      background:rgba(0,0,0,.28); border-bottom:1px solid rgba(244,227,162,.18);
+    }
+    .title{
+      flex:1; text-align:center; font-weight:900; letter-spacing:.2px; font-size:18px;
+      background:linear-gradient(180deg,var(--gold-1),var(--gold-2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      -webkit-text-stroke:.2px rgba(0,0,0,.25);
+    }
+    .icon{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:8px 12px; font-size:14px; cursor:pointer; user-select:none;
+      color:#f5e9be; background:transparent; border:1.5px solid rgba(244,227,162,.85);
+      border-radius:14px; transition:transform .08s ease, filter .15s ease, box-shadow .15s ease;
+    }
+    .icon:active{transform:translateY(1px)}
+    /* Контент */
+    .content{flex:1 1 auto; overflow:auto; -webkit-overflow-scrolling:touch; padding:12px;}
+    .content.center{display:grid; place-items:center; padding:16px;}
+    #cats{width:min(420px,100%);}
+    /* Кнопки */
+    .btn{display:inline-block; text-decoration:none; text-align:center; cursor:pointer; user-select:none;
+      padding:12px 18px; border-radius:16px; border:0; font-weight:800; letter-spacing:.2px;
+      transition:transform .08s ease, filter .15s ease, box-shadow .15s ease; white-space:nowrap;}
+    .btn:active{transform:translateY(1px)}
+    .btn-gold{
+      color:#1b1b1b; background:linear-gradient(180deg,var(--gold-1),var(--gold-2));
+      border:1px solid rgba(164,129,23,.65);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 12px 28px rgba(212,175,55,.35);
+      text-shadow:0 1px 0 rgba(255,255,255,.25);
+    }
+    .btn-gold:hover{filter:saturate(1.06) brightness(1.02)}
+    /* Выбор направления: вертикально */
+    .vstack{display:flex; flex-direction:column; gap:12px; align-items:stretch}
+    .vstack .btn{width:100%}
+    /* Сетка курсов — равная высота карточек */
+    .grid{
+      display:grid; gap:12px;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      align-items:stretch; /* растягиваем строки равномерно */
+    }
+    .card{
+      display:flex; flex-direction:column; /* <— равная высота */
+      background:rgba(0,0,0,.28); border:1px solid rgba(244,227,162,.18);
+      border-radius:16px; padding:12px; box-shadow:0 8px 18px rgba(0,0,0,.25);
+      min-height:170px; /* базовая высота карточки */
+    }
+    .card h3{margin:0 0 8px; font-size:16px}
+    .card p{margin:0 0 8px; color:#e9e9e9; font-size:14px}
+    .price{font-weight:800; color:#f5e9be; margin:0 0 10px}
+    .card-actions{margin-top:auto;} /* кнопка вниз */
+    .muted{color:#d9d9d9; font-size:12px; opacity:.9; margin-top:8px; text-align:center}
+    .hidden{display:none}
+    /* Компактный режим, если вдруг не влезает по высоте */
+    .compact .content{padding:8px}
+    .compact .grid{gap:8px; grid-template-columns:repeat(auto-fit, minmax(200px,1fr));}
+    .compact .card{padding:10px; border-radius:14px; min-height:150px}
+    .compact .card h3{font-size:15px; margin-bottom:6px}
+    .compact .card p{font-size:12px; margin-bottom:6px}
+    .compact .price{font-size:12px; margin-bottom:8px}
+    .compact .btn{padding:10px 14px; border-radius:14px}
+    .compact .icon{padding:7px 10px}
+    .compact .title{font-size:17px}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="panel" id="panel">
+      <div class="topbar">
+        <button id="backTop" class="icon">‹ Назад</button>
+        <div id="hdr" class="title">Выберите направление</div>
+        <div style="width:74px"></div>
+      </div>
+
+      <div id="content" class="content center">
+        <!-- Экран категорий -->
+        <section id="cats">
+          <div class="vstack">
+            <button class="btn btn-gold" data-cat="tarot">Таро</button>
+            <button class="btn btn-gold" data-cat="astro">Астрология</button>
+          </div>
+        </section>
+
+        <!-- Экран списка курсов -->
+        <section id="courses" class="hidden">
+          <div id="list" class="grid"></div>
+          <div class="muted">
+            Оплата — внутри Telegram, Stars<br>
+            Получение доступа к записи курса автоматически, сразу после оплаты.
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tg = window.Telegram?.WebApp; if (tg){ tg.expand(); tg.MainButton.hide(); }
+    const $ = s => document.querySelector(s);
+
+    const sourcesCourses = ['/data/courses.json','/courses.json'];
+    const sourcesLinks   = ['/data/invoice-links.json','/invoice-links.json'];
+
+    const CAT_MAP = {
+      tarot: new Set(['tarot-basic','pro-interpretation','love-money-spreads','tarot-for-brands','master-diagnostics']),
+      astro: new Set(['astro-basic','astro-profi','astro-synastry','astro-prognostics','astro-blog-business'])
+    };
+
+    const escapeHtml = s => (s||'').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    function formatRub(n){ try{ return (typeof n==='number') ? new Intl.NumberFormat('ru-RU').format(n)+' ₽' : '' }catch{ return (n??'')+' ₽' } }
+    async function firstOk(urls){ for (const u of urls){ try{ const r=await fetch(u,{cache:'no-store'}); if(r.ok) return await r.json(); }catch{} } return null; }
+    function detectCategory(id, course){
+      if (course?.category) return course.category;
+      if (id.startsWith('tarot-')) return 'tarot';
+      if (id.startsWith('astro-')) return 'astro';
+      for (const [cat,set] of Object.entries(CAT_MAP)) if (set.has(id)) return cat;
+      return null;
+    }
+    function openInvoice(link){
+      if (!link) return tg?.showPopup?.({title:'Инвойс не настроен', message:'Для этого курса пока нет ссылки на оплату.'});
+      if (tg?.openInvoice) tg.openInvoice(link, ()=>{});
+      else location.href = link;
+    }
+
+    let state='cats', currentCat=null;
+
+    function setState(next, cat){
+      state = next;
+      $('#cats').classList.toggle('hidden', state!=='cats');
+      $('#courses').classList.toggle('hidden', state!=='courses');
+      const content = $('#content');
+      if (state==='cats'){
+        $('#hdr').textContent='Выберите направление';
+        $('#backTop').onclick = () => location.href='index.html';
+        content.classList.add('center');
+      } else {
+        currentCat = cat || currentCat;
+        $('#hdr').textContent = (currentCat==='astro') ? 'Астрология — курсы' : 'Таро — курсы';
+        $('#backTop').onclick = () => setState('cats');
+        content.classList.remove('center');
+      }
+      content.scrollTo({top:0, behavior:'instant'});
+      fitOrCompact();
+    }
+
+    function renderCourses(courses, links, category){
+      const root = $('#list'); root.innerHTML='';
+      (courses||[]).filter(c => detectCategory(c.id, c) === category).forEach(c=>{
+        const id = c.id, title = c.label || c.title || id;
+        const card = document.createElement('div'); card.className='card';
+        card.innerHTML = `
+          <h3>${escapeHtml(title)}</h3>
+          ${c.desc ? `<p>${escapeHtml(c.desc)}</p>` : ''}
+          ${typeof c.rub==='number' ? `<p class="price">${formatRub(c.rub)}</p>` : ''}
+          <div class="card-actions">
+            <button class="btn btn-gold" data-id="${id}">💳 Оплатить</button>
+          </div>
+        `;
+        root.appendChild(card);
+      });
+      root.querySelectorAll('button[data-id]').forEach(b=>{
+        b.addEventListener('click', ()=> openInvoice(links?.[b.dataset.id]));
+      });
+    }
+
+    function fitOrCompact(){
+      const panel = $('#panel');
+      const content = $('#content');
+      panel.classList.remove('compact');
+      requestAnimationFrame(()=>{
+        const fits = content.scrollHeight <= content.clientHeight + 2;
+        if (!fits) panel.classList.add('compact');
+      });
+    }
+
+    (async function init(){
+      const [courses, links] = [await firstOk(sourcesCourses)||[], await firstOk(sourcesLinks)||{}];
+      $('#cats').addEventListener('click', e=>{
+        const cat = e.target?.dataset?.cat;
+        if (!cat) return;
+        renderCourses(courses, links, cat);
+        setState('courses', cat);
+      });
+
+      const sp = tg?.initDataUnsafe?.start_param
+              || new URLSearchParams(location.search).get('tgWebAppStartParam')
+              || new URLSearchParams(location.search).get('startapp') || '';
+      const sec = new URLSearchParams(sp).get('section');
+      const qCat = new URLSearchParams(location.search).get('category');
+      const auto = (qCat==='astro'||qCat==='tarot') ? qCat : (sec==='astro'||sec==='tarot') ? sec : null;
+
+      if (auto){ renderCourses(courses, links, auto); setState('courses', auto); }
+      else { setState('cats'); }
+      window.addEventListener('resize', fitOrCompact);
+    })();
+  </script>
+  <script src="/webapp/inapp-view.js"></script>
+</body>
+</html>
+
+

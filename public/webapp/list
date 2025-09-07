@@ -1,0 +1,91 @@
+﻿<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Оплата курсов  список</title>
+<!-- APP_UI_V2 -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --bg-url:none;
+  --overlay: linear-gradient(180deg, rgba(5,6,10,.65) 0%, rgba(5,6,10,.55) 40%, rgba(5,6,10,.75) 100%);
+  --text:#e6edf3; --muted:#a3adbb;
+  --card:rgba(255,255,255,.06); --card-border:rgba(255,255,255,.12);
+  --accent:#a78bfa; /* акцент по умолчанию */
+}
+*{box-sizing:border-box} html,body{height:100%}
+body{margin:0;color:var(--text);font-family:-apple-system,system-ui,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;background:#0b0f16}
+.bg{position:fixed;inset:0;z-index:-2;background:var(--overlay),var(--bg-url) center/cover no-repeat fixed}
+.wrap{max-width:720px;margin:0 auto;padding:calc(env(safe-area-inset-top,0)+12px)16px calc(env(safe-area-inset-bottom,0)+24px)}
+.h1{font-size:18px;font-weight:800;letter-spacing:.2px;margin:0 0 14px;opacity:.95}
+.grid{display:grid;grid-template-columns:1fr;gap:10px}
+.btn{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;border-radius:16px;background:var(--card);border:1px solid var(--card-border);backdrop-filter:blur(8px);cursor:pointer;transition:transform .06s,border-color .2s,background .2s}
+.btn:active{transform:scale(.985)} .btn:hover{border-color: color-mix(in oklab,var(--accent) 50%,white 0%)}
+.title{font-weight:650;letter-spacing:.2px} .price{color:var(--muted);font-weight:600}
+.btn::before{content:"";width:10px;height:10px;border-radius:999px;border:2px solid var(--accent);box-shadow:0 0 0 2px color-mix(in oklab,var(--accent) 30%,transparent 70%)}
+.note{margin-top:12px;color:var(--muted);font-size:13px} .hidden{display:none}
+</style></head>
+<body>
+<div class="bg" id="bg"></div>
+<div class="wrap">
+  <div id="hdr" class="h1">Список</div>
+  <div id="list" class="grid"></div>
+  <div id="msg" class="note hidden"></div>
+</div>
+<script>
+(function(){
+  const tg = window.Telegram && Telegram.WebApp ? Telegram.WebApp : null;
+  if (tg) { try{ tg.expand(); tg.ready(); }catch(e){} }
+
+  // Цвета темы из Telegram (если доступны)
+  const tp = tg && tg.themeParams ? tg.themeParams : {};
+  const c = (k,f)=> tp && tp[k] ? ("#"+tp[k]) : f;
+  document.documentElement.style.setProperty("--text",  c("text_color","#e6edf3"));
+  document.documentElement.style.setProperty("--muted", c("hint_color","#a3adbb"));
+
+  const qs = new URLSearchParams(location.search);
+  const section = (qs.get("section")==="astro") ? "astro" : "tarot";
+
+  // ЕДИНЫЙ фон
+  const bgPath = "/webapp/img/bg.png";
+  document.documentElement.style.setProperty("--bg-url", "url('"+bgPath+"')");
+
+  // Можно чуть менять акцент по разделу (необязательно)
+  const accent = (section==="astro") ? "#2dd4bf" : "#a78bfa";
+  document.documentElement.style.setProperty("--accent", accent);
+
+  const hdr = document.getElementById("hdr");
+  hdr.textContent = (section==="astro") ? "Астрология  программы" : "Таро  программы";
+
+  const TAROT_IDS = new Set(["tarot-basic","pro-interpretation","love-money-spreads","tarot-for-brands","master-diagnostics"]);
+  const isTarot = (c)=> TAROT_IDS.has(c.id) || c.id.startsWith("tarot-") || /таро/i.test(c.title||"") || /таро/i.test(c.label||"");
+  const isAstro = (c)=> c.id.startsWith("astro-") || /астро/i.test(c.title||"") || /астро/i.test(c.label||"");
+
+  const els={list:document.getElementById("list"),msg:document.getElementById("msg")};
+  const showMsg=(t)=>{els.msg.textContent=t;els.msg.classList.remove("hidden");};
+
+  function openInvoice(id,invoices){
+    const url=invoices[id];
+    if(!url){showMsg("Ссылка на оплату временно недоступна.");return;}
+    if(tg && typeof tg.openTelegramLink==="function"){ tg.openTelegramLink(url); }
+    else{ location.href=url; }
+  }
+  async function j(u){ const r=await fetch(u,{cache:"no-store"}); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
+
+  (async ()=>{
+    try{
+      const base=location.origin;
+      const [courses,invoices]=await Promise.all([ j(base+"/data/courses.json"), j(base+"/data/invoice-links.json") ]);
+      const items = (section==="astro") ? courses.filter(isAstro) : courses.filter(isTarot);
+      els.list.innerHTML="";
+      if(!items.length){ showMsg("Пока нет предложений в этом разделе."); return; }
+      for(const c of items){
+        const el=document.createElement("button"); el.className="btn"; el.type="button"; el.onclick=()=>openInvoice(c.id,invoices);
+        const t=document.createElement("div"); t.className="title"; t.textContent=c.label||c.short||c.title;
+        const p=document.createElement("div"); p.className="price"; if(typeof c.rub==="number") p.textContent=c.rub.toLocaleString("ru-RU")+" ₽";
+        el.appendChild(t); el.appendChild(p); els.list.appendChild(el);
+      }
+    }catch(e){ showMsg("Ошибка загрузки. Попробуйте позже."); console.error(e); }
+  })();
+})();
+</script>
+</body></html>

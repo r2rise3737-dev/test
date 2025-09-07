@@ -1,0 +1,13 @@
+[
+  {"id":"tarot-basic",               "label":"Таро с нуля: базовая система",               "rub": 5500},
+  {"id":"tarot-pro-interpretation",  "label":"Профи-интерпретация раскладов",              "rub":12000},
+  {"id":"tarot-love-money-spreads",  "label":"Расклады для отношений и денег",             "rub":18000},
+  {"id":"tarot-for-brands",          "label":"Таро для блогеров и брендов",                "rub":26000},
+  {"id":"tarot-master-diagnostics",  "label":"Мастер-уровень: диагностика и стратегия",    "rub":35000},
+
+  {"id":"astro-basic",               "label":"Астрология с нуля",                          "rub": 6500},
+  {"id":"astro-profi",               "label":"Профи-разбор натальных карт",                "rub":14000},
+  {"id":"astro-synastry",            "label":"Синастрия и совместимость",                  "rub":20000},
+  {"id":"astro-blog-business",       "label":"Астрология для блога и бизнеса",             "rub":27000},
+  {"id":"astro-master",              "label":"Мастер-астролог: диагностика и стратегия",   "rub":33000}
+]

@@ -1,0 +1,26 @@
+{
+  "name": "stars-bot",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "dev": "ts-node --esm index.ts",
+    "build": "tsc -p .",
+    "start": "node --enable-source-maps dist/index.js",
+    "channel:info": "node ./scripts/getChannelInfo.mjs",
+    "stars:links": "node ./scripts/generateInvoiceLinks.mjs",
+    "channel:publish": "node ./scripts/publishChannelPosts.mjs",
+    "channel:publish:menu": "node ./scripts/publishMenuPost.mjs"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "node-fetch": "^3.3.2",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}

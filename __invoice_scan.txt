@@ -1,0 +1,161 @@
+﻿=== INVOICE & PAYMENTS SCAN ===
+>>> pattern: createInvoice
+
+Path                                                                                                LineNumber Line    
+----                                                                                                ---------- ----    
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\functions\api\invoice.ts                 23   con...
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs         11  * и ...
+
+
+
+>>> pattern: createInvoiceLink
+
+Path                                                                                                LineNumber Line    
+----                                                                                                ---------- ----    
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\functions\api\invoice.ts                 23   con...
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs         11  * и ...
+
+
+
+>>> pattern: sendInvoice
+
+>>> pattern: invoice
+
+Path                                                                                                        LineNumber
+----                                                                                                        ----------
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\functions\api\invoice.ts                         23
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\lib\vercel.mjs                                   28
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\functions\api\tg-webhook.js         43
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs                  1
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\package.json                                     13
+
+
+
+>>> pattern: invoice-link
+
+Path                                                                                                LineNumber Line    
+----                                                                                                ---------- ----    
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\lib\vercel.mjs                           28 const...
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs         17 const...
+
+
+
+>>> pattern: pre_checkout
+
+Path                                                                                                        LineNumber
+----                                                                                                        ----------
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\functions\api\tg-webhook.js         36
+
+
+
+>>> pattern: successful_payment
+
+Path                                                                                                        LineNumber
+----                                                                                                        ----------
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\functions\api\tg-webhook.js         49
+
+
+
+>>> pattern: shipping_option
+
+>>> pattern: webhook
+
+Path                                                                                                        LineNumber
+----                                                                                                        ----------
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\functions\api\tg-webhook.js          5
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\resetWebhook.mjs                          5
+
+
+
+>>> pattern: setWebhook
+
+>>> pattern: handleUpdate
+
+>>> pattern: /webhook
+
+>>> pattern: /payments
+
+>>> pattern: /create-intent
+
+>>> pattern: stars
+
+Path                                                                                                     LineNumber Lin
+                                                                                                                    e  
+----                                                                                                     ---------- ---
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\functions\api\invoice.ts                      18   i
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\data\courses.backup.json          2   {
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\data\courses.json                 2   {
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs              10  * 
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\invoice-links.json                             2   {
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\package-lock.json                              2   "
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\package.json                                   2   "
+
+
+
+>>> pattern: star
+
+Path                                                                                                     LineNumber Lin
+                                                                                                                    e  
+----                                                                                                     ---------- ---
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\functions\api\invoice.ts                      18   i
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\lib\vercel.mjs                                74   c
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\data\courses.backup.json          2   {
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\data\courses.json                 2   {
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\webapp\tg-bridge.js              12    
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs              10  * 
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\publishMenuPost.mjs                    9   c
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\index.ts                                     114   c
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\invoice-links.json                             2   {
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\package-lock.json                              2   "
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\package.json                                   2   "
+
+
+
+>>> pattern: xtr
+
+Path                                                                                                        LineNumber
+----                                                                                                        ----------
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\functions\api\invoice.ts                         31
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\functions\api\tg-webhook.js         43
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs                 11
+
+
+
+>>> pattern: XTR
+
+Path                                                                                                        LineNumber
+----                                                                                                        ----------
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\functions\api\invoice.ts                         31
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\functions\api\tg-webhook.js         43
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs                 11
+
+
+
+>>> pattern: currency
+
+Path                                                                                                LineNumber Line    
+----                                                                                                ---------- ----    
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\functions\api\invoice.ts                 31      ...
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs         11  * и ...
+
+
+
+>>> pattern: price
+
+Path                                                                                                LineNumber Line    
+----                                                                                                ---------- ----    
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\functions\api\invoice.ts                 32      ...
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs         43     p...
+
+
+
+>>> pattern: amount
+
+Path                                                                                                        LineNumber
+----                                                                                                        ----------
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\functions\api\invoice.ts                         32
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\pages-deploy\functions\api\tg-webhook.js         43
+C:\Users\BotMaker\Desktop\САМЫЙ ТОП НАХУЙ\angela-landing-clean\bot\scripts\generateInvoiceLinks.mjs                 11
+
+
+

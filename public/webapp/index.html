@@ -1,0 +1,142 @@
+﻿<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Оплата курсов  Angela Pearl</title>
+<!-- APP_OK_V13 -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --bg:#0e1117;--card:#0f141b;--text:#e6edf3;--muted:#a9b4c0;--accent:#7c5cff;--accent2:#2f81f7
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:transparent;color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
+
+/* ФОН  без background-attachment: fixed (iOS) */
+body::before{
+  content:"";position:fixed;inset:0;
+  background-image:url('/webapp/bg-app.png');
+  background-position:center;background-size:cover;background-repeat:no-repeat;
+  z-index:-2
+}
+/* По желанию: разные фоны (положишь файлы  включится само) */
+body.tarot::before{ background-image:url('/webapp/bg-tarot.png'); }
+body.astro::before{ background-image:url('/webapp/bg-astro.png'); }
+
+/* Лёгкий оверлей, чтобы текст читался, но картинка была видна */
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(900px 600px at 70% -10%, rgba(124,92,255,.18), transparent),
+    linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.45) 60%, rgba(0,0,0,.55));
+}
+
+.wrap{max-width:760px;margin:0 auto;padding:16px 16px 28px}
+.h1{font-size:18px;font-weight:700;margin:0 0 12px;text-shadow:0 2px 10px rgba(0,0,0,.35)}
+.tabs{display:flex;gap:10px;margin:8px 0 14px}
+.tab{
+  flex:1;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  backdrop-filter:blur(8px);color:var(--text);cursor:pointer;text-align:center;font-weight:600;
+  box-shadow:0 6px 24px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.04)
+}
+.tab:hover{transform:translateY(-1px)}
+.tab.active{ outline:2px solid var(--accent); box-shadow:0 10px 30px rgba(124,92,255,.3) }
+.grid{display:grid;grid-template-columns:1fr;gap:10px}
+.btn{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 16px;border-radius:16px;border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  backdrop-filter:blur(10px);cursor:pointer;transition:transform .12s, box-shadow .12s, border-color .12s;
+  box-shadow:0 10px 30px rgba(0,0,0,.30), inset 0 0 0 1px rgba(255,255,255,.04)
+}
+.btn:hover{ transform:translateY(-1px); border-color:rgba(124,92,255,.45); box-shadow:0 14px 36px rgba(124,92,255,.22) }
+.title{font-weight:700; letter-spacing:.2px}
+.price{color:var(--muted);font-weight:600}
+.note{margin-top:10px;color:var(--muted);font-size:13px}
+.hidden{display:none}
+.badge{
+  display:inline-block;margin:0 0 12px;padding:6px 10px;font-size:12px;font-weight:700;
+  border-radius:999px;background:linear-gradient(90deg, rgba(124,92,255,.35), rgba(47,129,247,.35));
+  border:1px solid rgba(255,255,255,.10)
+}
+</style></head><body><div class="wrap">
+  <div id="badge" class="badge">Angela Pearl Mini App</div>
+  <div id="tabs" class="tabs">
+    <div id="tab-tarot" class="tab"> Таро</div>
+    <div id="tab-astro" class="tab"> Астрология</div>
+  </div>
+  <div id="list" class="grid"></div>
+  <div id="msg" class="note hidden"></div>
+</div>
+<script>
+(function(){
+  const tg = window.Telegram && Telegram.WebApp ? Telegram.WebApp : null;
+  if (tg) { try { tg.expand(); tg.ready(); } catch(e){} }
+
+  const els = { tabs:document.getElementById('tabs'), tabTarot:document.getElementById('tab-tarot'), tabAstro:document.getElementById('tab-astro'), list:document.getElementById('list'), msg:document.getElementById('msg') };
+  const TAROT_IDS = new Set(['tarot-basic','pro-interpretation','love-money-spreads','tarot-for-brands','master-diagnostics']);
+  const isTarot = (c)=>TAROT_IDS.has(c.id)||c.id.startsWith('tarot-')||/таро/i.test(c.title||'')||/таро/i.test(c.label||'');
+  const isAstro = (c)=>c.id.startsWith('astro-')||/астро/i.test(c.title||'')||/астро/i.test(c.label||'');
+  const state = { courses:[], invoices:{}, section:'tarot', fromPayload:false };
+
+  function getStartParam(){
+    try{ const sp = tg?.initDataUnsafe?.start_param||''; if(sp){ state.fromPayload=true; return sp; } }catch(e){}
+    const qs = new URLSearchParams(location.search);
+    const spUrl = qs.get('tgWebAppStartParam'); if(spUrl){ state.fromPayload=true; return spUrl; }
+    if (qs.get('section')) return 'section='+qs.get('section');
+    if (qs.get('buy')) return 'buy='+qs.get('buy');
+    return '';
+  }
+  function parseStartParam(){
+    const [k,v]=(getStartParam()||'=').split('=');
+    if(k==='section'&&(v==='tarot'||v==='astro')) state.section=v;
+    else if(k==='buy'&&v){ if(v.startsWith('tarot')) state.section='tarot'; else if(v.startsWith('astro')) state.section='astro'; }
+    if(state.fromPayload&&els.tabs) els.tabs.classList.add('hidden');
+    document.body.classList.toggle('tarot', state.section==='tarot');
+    document.body.classList.toggle('astro', state.section==='astro');
+  }
+
+  async function loadJSON(u){ const r=await fetch(u,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
+
+  async function bootstrap(){
+    try{
+      const base = location.origin;
+      const [courses,invoices] = await Promise.all([
+        loadJSON(base+'/data/courses.json'),
+        loadJSON(base+'/data/invoice-links.json'),
+      ]);
+      state.courses=courses; state.invoices=invoices;
+      parseStartParam(); wireUI(); render();
+    }catch(e){ showMsg('Не удалось загрузить данные. Попробуйте позже.'); console.error(e); }
+  }
+
+  function wireUI(){
+    els.tabTarot?.addEventListener('click',()=>{ state.section='tarot'; applyClass(); render(); });
+    els.tabAstro?.addEventListener('click',()=>{ state.section='astro'; applyClass(); render(); });
+  }
+  function applyClass(){ document.body.classList.toggle('tarot', state.section==='tarot'); document.body.classList.toggle('astro', state.section==='astro'); }
+  function showMsg(t){ els.msg.textContent=t; els.msg.classList.remove('hidden'); }
+  function hideMsg(){ els.msg.classList.add('hidden'); els.msg.textContent=''; }
+
+  function openInvoice(id){
+    const url = state.invoices[id];
+    if(!url){ showMsg('Ссылка на оплату временно недоступна.'); return; }
+    if (tg && typeof tg.openTelegramLink==='function'){ tg.openTelegramLink(url); } else { location.href=url; }
+  }
+
+  function render(){
+    hideMsg();
+    els.tabTarot?.classList.toggle('active',state.section==='tarot');
+    els.tabAstro?.classList.toggle('active',state.section==='astro');
+    const items = (state.section==='tarot') ? state.courses.filter(isTarot) : state.courses.filter(isAstro);
+    els.list.innerHTML=''; if(!items.length){ showMsg('Пока нет предложений в этом разделе.'); return; }
+    for(const c of items){
+      const el=document.createElement('button'); el.className='btn'; el.type='button'; el.onclick=()=>openInvoice(c.id);
+      const t=document.createElement('div'); t.className='title'; t.textContent=c.label||c.short||c.title;
+      const p=document.createElement('div'); p.className='price'; if(typeof c.rub==='number') p.textContent=c.rub.toLocaleString('ru-RU')+' ₽';
+      el.appendChild(t); el.appendChild(p); els.list.appendChild(el);
+    }
+  }
+  bootstrap();
+})();
+</script>
+</body></html>
