@@ -38,14 +38,14 @@ a, a:visited { color: inherit; text-decoration: none; }
 </head>
 <body>
 <div class="wrap">
-  <div class="badge" id="hdr">Загрузка…</div>
+  <div class="badge" id="hdr">Р—Р°РіСЂСѓР·РєР°вЂ¦</div>
   <div class="grid" id="list"></div>
-  <div class="note">Оплата Stars проходит внутри Telegram. Доступ к записи курса открывается автоматически.</div>
+  <div class="note">РћРїР»Р°С‚Р° Stars РїСЂРѕС…РѕРґРёС‚ РІРЅСѓС‚СЂРё Telegram. Р”РѕСЃС‚СѓРї Рє Р·Р°РїРёСЃРё РєСѓСЂСЃР° РѕС‚РєСЂС‹РІР°РµС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.</div>
 </div>
 
 <script>
 (function(){
-  // --- секция из query ?section=... или из start_param ---
+  // --- СЃРµРєС†РёСЏ РёР· query ?section=... РёР»Рё РёР· start_param ---
   function detectSection(){
     const qs = new URLSearchParams(location.search);
     const q = qs.get('section');
@@ -110,17 +110,17 @@ a, a:visited { color: inherit; text-decoration: none; }
   (section==='astro' ? document.documentElement.classList.add('theme-astro')
                      : document.documentElement.classList.add('theme-tarot'));
 
-  // --- шапка-бейдж ---
+  // --- С€Р°РїРєР°-Р±РµР№РґР¶ ---
   const hdr = document.getElementById('hdr');
   hdr.textContent = (section==='astro')
-    ? 'Видеокурсы по астрологии · доступ сразу после оплаты'
-    : 'Видеокурсы по Таро · доступ сразу после оплаты';
+    ? 'Р’РёРґРµРѕРєСѓСЂСЃС‹ РїРѕ Р°СЃС‚СЂРѕР»РѕРіРёРё В· РґРѕСЃС‚СѓРї СЃСЂР°Р·Сѓ РїРѕСЃР»Рµ РѕРїР»Р°С‚С‹'
+    : 'Р’РёРґРµРѕРєСѓСЂСЃС‹ РїРѕ РўР°СЂРѕ В· РґРѕСЃС‚СѓРї СЃСЂР°Р·Сѓ РїРѕСЃР»Рµ РѕРїР»Р°С‚С‹';
 
-  // --- данные ---
+  // --- РґР°РЅРЅС‹Рµ ---
   const v='skin7';
   const coursesUrl = '/data/courses.json?v='+v;
   const linksUrl   = '/data/invoice-links.json?v='+v;
-  const rate = 1.4668; // ₽ → ⭐ визуально
+  const rate = 1.4668; // в‚Ѕ в†’ в­ђ РІРёР·СѓР°Р»СЊРЅРѕ
 
   Promise.all([fetch(coursesUrl).then(r=>r.json()), fetch(linksUrl).then(r=>r.json())])
     .then(([courses, links])=>{
@@ -148,9 +148,9 @@ a, a:visited { color: inherit; text-decoration: none; }
         const p = document.createElement('div');
         p.className='price';
         const parts=[];
-        if(typeof c.rub==='number') parts.push(c.rub.toLocaleString('ru-RU')+' ₽');
-        if(typeof c.rub==='number') parts.push(Math.round(c.rub/rate).toLocaleString('ru-RU')+' ⭐');
-        p.textContent = parts.join('  ·  ');
+        if(typeof c.rub==='number') parts.push(c.rub.toLocaleString('ru-RU')+' в‚Ѕ');
+        if(typeof c.rub==='number') parts.push(Math.round(c.rub/rate).toLocaleString('ru-RU')+' в­ђ');
+        p.textContent = parts.join('  В·  ');
 
         left.appendChild(t);
         left.appendChild(p);
@@ -159,11 +159,11 @@ a, a:visited { color: inherit; text-decoration: none; }
       });
     })
     .catch(e=>{
-      hdr.textContent = 'Ошибка загрузки. Обновите страницу.';
+      hdr.textContent = 'РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё. РћР±РЅРѕРІРёС‚Рµ СЃС‚СЂР°РЅРёС†Сѓ.';
       console.error(e);
     });
 
-  // --- нативное открытие Stars-инвойса ---
+  // --- РЅР°С‚РёРІРЅРѕРµ РѕС‚РєСЂС‹С‚РёРµ Stars-РёРЅРІРѕР№СЃР° ---
   window.openInvoice = function(url){
     try{
       if (window.Telegram && Telegram.WebApp && /^https:\/\/t\.me\/\$/i.test(url)) {
@@ -171,7 +171,7 @@ a, a:visited { color: inherit; text-decoration: none; }
         return;
       }
     }catch(e){}
-    if(url) location.href = url; // запасной путь
+    if(url) location.href = url; // Р·Р°РїР°СЃРЅРѕР№ РїСѓС‚СЊ
   };
 })();
 </script>
@@ -181,8 +181,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const hdr = document.getElementById("hdr");
   if (!hdr) return;
   const copy = (section === "astro")
-    ? "Видеокурсы по Астрологии  Angela Pearl"
-    : "Видеокурсы по Таро  Angela Pearl";
+    ? "Р’РёРґРµРѕРєСѓСЂСЃС‹ РїРѕ РђСЃС‚СЂРѕР»РѕРіРёРё  Angela Pearl"
+    : "Р’РёРґРµРѕРєСѓСЂСЃС‹ РїРѕ РўР°СЂРѕ  Angela Pearl";
   const set = () => { if (hdr.textContent !== copy) hdr.textContent = copy; };
   set();
   try { new MutationObserver(set).observe(hdr, {childList:true, characterData:true, subtree:true}); } catch(e){}
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- /PATCH -->
 <!-- PATCH:stars-css -->
 <style>
-  /* Консистентная золотая звезда перед ценой, не зависит от шрифтов/эмодзи */
+  /* РљРѕРЅСЃРёСЃС‚РµРЅС‚РЅР°СЏ Р·РѕР»РѕС‚Р°СЏ Р·РІРµР·РґР° РїРµСЂРµРґ С†РµРЅРѕР№, РЅРµ Р·Р°РІРёСЃРёС‚ РѕС‚ С€СЂРёС„С‚РѕРІ/СЌРјРѕРґР·Рё */
   .price{
     display:inline-flex;
     align-items:center;
@@ -212,9 +212,9 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- PATCH:app-shell -->
 <script>
 (function(){
-  // ===== Константы =====
+  // ===== РљРѕРЅСЃС‚Р°РЅС‚С‹ =====
   const landing = 'https://angelapearl-academy.pages.dev/';
-  const RATE = 1.4668; // руб за 1
+  const RATE = 1.4668; // СЂСѓР± Р·Р° 1
   const starsFromRub = rub => Math.round(rub / RATE);
   function prettyFloor(n){
     if(n>=10000) return Math.floor(n/1000)*1000;
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.floor(n);
   }
 
-  // ===== Базовый монтаж =====
+  // ===== Р‘Р°Р·РѕРІС‹Р№ РјРѕРЅС‚Р°Р¶ =====
   function ensureMount(){
     try{ document.querySelectorAll('.loading,#loading').forEach(el=>el.remove()); }catch(e){}
     let hdr = document.getElementById('hdr');
@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return grid;
   }
 
-  // ===== Навигация =====
+  // ===== РќР°РІРёРіР°С†РёСЏ =====
   function detectSection(){
     let s='home';
     try{
@@ -278,17 +278,17 @@ document.addEventListener("DOMContentLoaded", () => {
     render();
   }
 
-  // ===== Заголовок =====
+  // ===== Р—Р°РіРѕР»РѕРІРѕРє =====
   function setHeader(sec){
     const hdr = document.getElementById('hdr'); if(!hdr) return;
     let copy='Angela Pearl';
-    if(sec==='menu')  copy='Angela Pearl  выберите раздел';
-    if(sec==='tarot') copy='Видеокурсы по Таро  Angela Pearl';
-    if(sec==='astro') copy='Видеокурсы по Астрологии  Angela Pearl';
+    if(sec==='menu')  copy='Angela Pearl  РІС‹Р±РµСЂРёС‚Рµ СЂР°Р·РґРµР»';
+    if(sec==='tarot') copy='Р’РёРґРµРѕРєСѓСЂСЃС‹ РїРѕ РўР°СЂРѕ  Angela Pearl';
+    if(sec==='astro') copy='Р’РёРґРµРѕРєСѓСЂСЃС‹ РїРѕ РђСЃС‚СЂРѕР»РѕРіРёРё  Angela Pearl';
     if(hdr.textContent!==copy) hdr.textContent=copy;
   }
 
-  // ===== Кнопка-карточка =====
+  // ===== РљРЅРѕРїРєР°-РєР°СЂС‚РѕС‡РєР° =====
   function btn(text, onClick){
     const a=document.createElement('a');
     a.className='btn';
@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
     left.appendChild(title); a.appendChild(left); return a;
   }
 
-  // ===== Верхняя Назад как мини-карточка =====
+  // ===== Р’РµСЂС…РЅСЏСЏ РќР°Р·Р°Рґ РєР°Рє РјРёРЅРё-РєР°СЂС‚РѕС‡РєР° =====
   function drawBackMini(sec){
     const need = (sec==='menu'||sec==='astro'||sec==='tarot');
     let bar = document.querySelector('.backbar');
@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const grid=document.querySelector('.grid');
     const mount= grid? grid.parentElement : document.body;
     bar=document.createElement('div'); bar.className='backbar';
-    const back=btn(' Назад', ()=> setSection(sec==='menu'?'home':'menu'));
+    const back=btn(' РќР°Р·Р°Рґ', ()=> setSection(sec==='menu'?'home':'menu'));
     back.classList.add('back-mini');
     bar.appendChild(back);
     if(mount && mount.firstChild) mount.insertBefore(bar, mount.firstChild); else mount.appendChild(bar);
@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }catch(e){}
   }
 
-  // ===== Рендер =====
+  // ===== Р РµРЅРґРµСЂ =====
   async function render(){
     const grid = ensureMount();
     const sec  = detectSection();
@@ -331,18 +331,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // HOME
     if(sec==='home'){
-      grid.appendChild(btn(' Подробнее о курсах', ()=>{
+      grid.appendChild(btn(' РџРѕРґСЂРѕР±РЅРµРµ Рѕ РєСѓСЂСЃР°С…', ()=>{
         try{ if(window.Telegram&&Telegram.WebApp&&Telegram.WebApp.openLink){ Telegram.WebApp.openLink(landing); return; } }catch(e){}
         location.href=landing;
       }));
-      grid.appendChild(btn(' Купить сейчас', ()=> setSection('menu')));
+      grid.appendChild(btn(' РљСѓРїРёС‚СЊ СЃРµР№С‡Р°СЃ', ()=> setSection('menu')));
       return;
     }
 
     // MENU
     if(sec==='menu'){
-      grid.appendChild(btn('Курсы Таро', ()=> setSection('tarot')));
-      grid.appendChild(btn('Курсы Астрология', ()=> setSection('astro')));
+      grid.appendChild(btn('РљСѓСЂСЃС‹ РўР°СЂРѕ', ()=> setSection('tarot')));
+      grid.appendChild(btn('РљСѓСЂСЃС‹ РђСЃС‚СЂРѕР»РѕРіРёСЏ', ()=> setSection('astro')));
       return;
     }
 
@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ===== Косметика ссылок + стиль Back =====
+  // ===== РљРѕСЃРјРµС‚РёРєР° СЃСЃС‹Р»РѕРє + СЃС‚РёР»СЊ Back =====
   (function(){
     const style=document.createElement('style');
     style.textContent =
