@@ -8,10 +8,8 @@ function cloneHeaders(src: Headers) {
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  // какой именно файл отдаём
   const target = url.searchParams.get("path") || "/_raw/webapp/list.html";
 
-  // тянем исходник из статических ассетов
   const origin = await fetch(new URL(target, url.origin), {
     headers: { "cache-control": "no-cache" },
   });

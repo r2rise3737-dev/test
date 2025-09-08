@@ -6,16 +6,15 @@ export const config = { matcher: ["/webapp/:path*"] };
 export function middleware(req: NextRequest) {
   const url = new URL(req.url);
 
-  // Старые адреса вида /webapp/*.html -> на новый чистый путь без .html
+  // /webapp/*.html -> переписываем на прокси, который берёт файл из /_raw/...
   if (url.pathname.startsWith("/webapp/") && url.pathname.endsWith(".html")) {
-    const clean = url.pathname.replace(/\.html$/, "");
+    const raw = "/_raw" + url.pathname + ""; // напр. /_raw/webapp/list.html
     const to = new URL("/__html-proxy", url.origin);
-    // прокси будет тянуть файл из /_raw/..., а клиенту остаётся красивый путь
-    to.searchParams.set("path", "/_raw" + clean + ".html");
+    to.searchParams.set("path", raw);
     return NextResponse.rewrite(to);
   }
 
-  // Прямой "красивый" путь /webapp/list -> сразу на прокси
+  // «чистый» путь без .html тоже обслуживаем прокси из соответствующего сырого файла
   if (url.pathname === "/webapp/list") {
     const to = new URL("/__html-proxy", url.origin);
     to.searchParams.set("path", "/_raw/webapp/list.html");
