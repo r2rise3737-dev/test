@@ -3,17 +3,12 @@ import { NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
   const url = new URL(req.url);
-  const res = NextResponse.next();
-
   if (url.pathname.startsWith("/webapp/") && url.pathname.endsWith(".html")) {
-    // принудительно нормализуем тип
-    res.headers.set("content-type", "text/html; charset=utf-8");
-    res.headers.set("x-webapp-mw", "hit");
+    const proxy = new URL("/webapp-proxy", url.origin);
+    proxy.searchParams.set("path", url.pathname);
+    return NextResponse.rewrite(proxy);
   }
-  return res;
+  return NextResponse.next();
 }
 
-// Ограничиваемся только нашим подпутём, чтобы ничего лишнего не трогать
-export const config = {
-  matcher: ["/webapp/:path*"],
-};
+export const config = { matcher: ["/webapp/:path*"] };
