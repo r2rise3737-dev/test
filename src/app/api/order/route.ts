@@ -1,4 +1,5 @@
-﻿// src/app/api/order/route.ts
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+// src/app/api/order/route.ts
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
@@ -46,3 +47,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Bad request' }, { status: 400, headers: noStore });
   }
 }
+

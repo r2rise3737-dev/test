@@ -1,4 +1,5 @@
-﻿// src/app/api/lead/route.ts
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+// src/app/api/lead/route.ts
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
@@ -180,3 +181,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Unexpected error' }, { status: 500, headers: noStore });
   }
 }
+

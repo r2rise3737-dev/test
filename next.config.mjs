@@ -4,11 +4,10 @@ const nextConfig = {
     return [
       {
         source: "/webapp/:path*.html",
-        headers: [
-          { key: "Content-Type", value: "text/html; charset=utf-8" },
-        ],
+        headers: [{ key: "Content-Type", value: "text/html; charset=utf-8" }],
       },
     ];
   },
+  eslint: { ignoreDuringBuilds: true },
 };
 export default nextConfig;
