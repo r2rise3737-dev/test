@@ -8,23 +8,20 @@ function cloneHeaders(src: Headers) {
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const path = url.searchParams.get("path") || "";
-  if (!path.startsWith("/webapp/") || !path.endsWith(".html")) {
-    return new Response("Bad Request", { status: 400 });
-  }
+  // какой именно файл отдаём
+  const target = url.searchParams.get("path") || "/_raw/webapp/list.html";
 
-  // тянем «оригинал» (может вернуться с octet-stream — это нормально)
-  const origin = await fetch(new URL(path, url.origin), {
+  // тянем исходник из статических ассетов
+  const origin = await fetch(new URL(target, url.origin), {
     headers: { "cache-control": "no-cache" },
   });
 
-  // копируем все заголовки, но content-type перезаписываем
   const headers = cloneHeaders(origin.headers);
   headers.set("content-type", "text/html; charset=utf-8");
-  headers.set("x-proxy", "html");
   if (!headers.has("cache-control")) {
     headers.set("cache-control", "public, max-age=0, must-revalidate");
   }
+  headers.set("x-proxy", "edge-html");
 
   return new Response(origin.body, { headers, status: origin.status, statusText: origin.statusText });
 }
