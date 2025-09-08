@@ -2,14 +2,14 @@ export const runtime = 'edge';
 // src/app/api/ask/route.ts
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic"; // чтобы не кэшировалось
+export const dynamic = "force-dynamic"; // ����� �� ������������
 
 type AskPayload = {
   name: string;
   email: string;
   phone: string;
   question: string;
-  // опционально доп. контекст
+  // ����������� ���. ��������
   courseTitle?: string;
   amount?: string | number;
   currency?: string;
@@ -22,22 +22,22 @@ function sanitize(s: unknown, max = 500) {
 
 function buildMessage(p: AskPayload) {
   const lines = [
-    "<b>Новая заявка: «Задать вопрос»</b>",
+    "<b>����� ������: ������� ������</b>",
     "",
-    `<b>Имя:</b> ${sanitize(p.name) || "-"}`,
+    `<b>���:</b> ${sanitize(p.name) || "-"}`,
     `<b>Email:</b> ${sanitize(p.email) || "-"}`,
-    `<b>Телефон:</b> ${sanitize(p.phone) || "-"}`,
+    `<b>�������:</b> ${sanitize(p.phone) || "-"}`,
     "",
-    `<b>Вопрос:</b> ${sanitize(p.question, 2000) || "-"}`,
+    `<b>������:</b> ${sanitize(p.question, 2000) || "-"}`,
   ];
 
   if (p.courseTitle || p.amount || p.currency) {
     lines.push(
       "",
-      "<b>Контекст заказа:</b>",
-      p.courseTitle ? `• Курс: ${sanitize(p.courseTitle)}` : "",
-      p.amount ? `• Сумма: ${sanitize(p.amount)}` : "",
-      p.currency ? `• Валюта: ${sanitize(p.currency)}` : ""
+      "<b>�������� ������:</b>",
+      p.courseTitle ? `� ����: ${sanitize(p.courseTitle)}` : "",
+      p.amount ? `� �����: ${sanitize(p.amount)}` : "",
+      p.currency ? `� ������: ${sanitize(p.currency)}` : ""
     );
   }
 
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     const { name, email, phone, question, courseTitle, amount, currency } =
       (await req.json()) as AskPayload;
 
-    // Базовая валидация
+    // ������� ���������
     if (!name || !email || !phone || !question) {
       return NextResponse.json(
         { ok: false, error: "VALIDATION_ERROR" },
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     }
 
     const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-    const CHAT_ID = process.env.TELEGRAM_CHAT_ID; // может быть id или @username
+    const CHAT_ID = process.env.TELEGRAM_CHAT_ID; // ����� ���� id ��� @username
 
     if (!BOT_TOKEN || !CHAT_ID) {
       return NextResponse.json(
@@ -77,9 +77,9 @@ export async function POST(req: Request) {
       currency,
     });
 
-    // Отправка в Telegram
+    // �������� � Telegram
     const controller = new AbortController();
-    const t = setTimeout(() => controller.abort(), 8000); // 8s таймаут
+    const t = setTimeout(() => controller.abort(), 8000); // 8s �������
 
     const tgResp = await fetch(
       `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
