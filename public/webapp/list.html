@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
@@ -38,14 +38,14 @@ a, a:visited { color: inherit; text-decoration: none; }
 </head>
 <body>
 <div class="wrap">
-  <div class="badge" id="hdr">��������</div>
+  <div class="badge" id="hdr">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</div>
   <div class="grid" id="list"></div>
-  <div class="note">������ Stars �������� ������ Telegram. ������ � ������ ����� ����������� �������������.</div>
+  <div class="note">пїЅпїЅпїЅпїЅпїЅпїЅ Stars пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Telegram. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.</div>
 </div>
 
 <script>
 (function(){
-  // --- ������ �� query ?section=... ��� �� start_param ---
+  // --- пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ query ?section=... пїЅпїЅпїЅ пїЅпїЅ start_param ---
   function detectSection(){
     const qs = new URLSearchParams(location.search);
     const q = qs.get('section');
@@ -110,17 +110,17 @@ a, a:visited { color: inherit; text-decoration: none; }
   (section==='astro' ? document.documentElement.classList.add('theme-astro')
                      : document.documentElement.classList.add('theme-tarot'));
 
-  // --- �����-����� ---
+  // --- пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅ ---
   const hdr = document.getElementById('hdr');
   hdr.textContent = (section==='astro')
-    ? '���������� �� ���������� � ������ ����� ����� ������'
-    : '���������� �� ���� � ������ ����� ����� ������';
+    ? 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ'
+    : 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ';
 
-  // --- ������ ---
+  // --- пїЅпїЅпїЅпїЅпїЅпїЅ ---
   const v='skin7';
   const coursesUrl = '/data/courses.json?v='+v;
   const linksUrl   = '/data/invoice-links.json?v='+v;
-  const rate = 1.4668; // ? > ? ���������
+  const rate = 1.4668; // ? > ? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
   Promise.all([fetch(coursesUrl).then(r=>r.json()), fetch(linksUrl).then(r=>r.json())])
     .then(([courses, links])=>{
@@ -150,7 +150,7 @@ a, a:visited { color: inherit; text-decoration: none; }
         const parts=[];
         if(typeof c.rub==='number') parts.push(c.rub.toLocaleString('ru-RU')+' ?');
         if(typeof c.rub==='number') parts.push(Math.round(c.rub/rate).toLocaleString('ru-RU')+' ?');
-        p.textContent = parts.join('  �  ');
+        p.textContent = parts.join('  пїЅ  ');
 
         left.appendChild(t);
         left.appendChild(p);
@@ -159,11 +159,11 @@ a, a:visited { color: inherit; text-decoration: none; }
       });
     })
     .catch(e=>{
-      hdr.textContent = '������ ��������. �������� ��������.';
+      hdr.textContent = 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.';
       console.error(e);
     });
 
-  // --- �������� �������� Stars-������� ---
+  // --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Stars-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ---
   window.openInvoice = function(url){
     try{
       if (window.Telegram && Telegram.WebApp && /^https:\/\/t\.me\/\$/i.test(url)) {
@@ -171,7 +171,7 @@ a, a:visited { color: inherit; text-decoration: none; }
         return;
       }
     }catch(e){}
-    if(url) location.href = url; // �������� ����
+    if(url) location.href = url; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
   };
 })();
 </script>
@@ -181,8 +181,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const hdr = document.getElementById("hdr");
   if (!hdr) return;
   const copy = (section === "astro")
-    ? "���������� �� ����������  Angela Pearl"
-    : "���������� �� ����  Angela Pearl";
+    ? "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  Angela Pearl"
+    : "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ  Angela Pearl";
   const set = () => { if (hdr.textContent !== copy) hdr.textContent = copy; };
   set();
   try { new MutationObserver(set).observe(hdr, {childList:true, characterData:true, subtree:true}); } catch(e){}
@@ -211,8 +211,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function headerCopy(sec){
-    return (sec==='astro') ? '���������� �� ����������  Angela Pearl'
-                           : '���������� �� ����  Angela Pearl';
+    return (sec==='astro') ? 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  Angela Pearl'
+                           : 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ  Angela Pearl';
   }
 
   async function render(){
@@ -221,16 +221,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const courses = await fetch('/data/courses.json?v=skin15').then(r=>r.json());
     const links   = await fetch('/data/invoice-links.json?v=skin15').then(r=>r.json());
 
-    // ���� 5 �������� �� ������
+    // пїЅпїЅпїЅпїЅ 5 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     const items = courses.filter(c => (sec==='astro') ? (c.id||'').startsWith('astro-')
                                                       : !(c.id||'').startsWith('astro-')).slice(0,5);
 
-    // ���� ������ ����� ������������  �������� �� ������� id
+    // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ id
     if(items.length){
       sec = items[0].id.startsWith('astro-') ? 'astro' : 'tarot';
     }
 
-    // ��������� + ������ �� ��������� �����������
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ + пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     var hdr = document.getElementById('hdr');
     if(hdr){
       const want = headerCopy(sec);
@@ -241,14 +241,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }catch(e){}
     }
 
-    // ������ ��������
+    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     var grid = document.querySelector('.grid');
     if(!grid) return;
     grid.innerHTML = '';
 
     const rate = 1.4668;
     const starsFromRub = rub => Math.round(rub / rate);
-    const star = String.fromCodePoint(0x2B50); // ��������������� 
+    const star = String.fromCodePoint(0x2B50); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
 
     items.forEach(c=>{
       const a = document.createElement('a');
@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const price = document.createElement('div');
       price.className='price';
-      // ������ ������, ��� ������  ������ � �������
+      // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ  пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
       const starsTxt = (typeof c.rub==='number')
         ? (starsFromRub(c.rub).toLocaleString('ru-RU') + ' ' + star)
         : '';
@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ���������: ������� �������������/������ � ���� ������ ����
+  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
   const style = document.createElement('style');
   style.textContent = `
     a, a:visited { color: inherit; text-decoration: none; }
